@@ -50,11 +50,11 @@ npx hardhat run scripts/market.js --network goerli
 
 ### 文档
 
-   [Market设计文档](https://github.com/hoseadevops/edec-nft-market/blob/main/docs/Market%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3.pdf)
+   [Market设计文档](https://github.com/armors/coresky_contract/blob/main/docs/Market%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3.pdf)
 
-   [签名 && calldata demo  js](https://github.com/hoseadevops/edec-nft-market/blob/main/test/verify.js)
+   [签名 && calldata demo  js](https://github.com/armors/coresky_contract/blob/main/test/verify.js)
 
-   [签名 && calldata demo  solidity](https://github.com/hoseadevops/edec-nft-market/blob/main/contracts/Verify.sol)
+   [签名 && calldata demo  solidity](https://github.com/armors/coresky_contract/blob/main/contracts/Verify.sol)
 
    * 合约接口: documents/index.html
        * 可参考 contracts/NFTMarket.sol: Exchange 合约  和  contracts/NFTMarketWrap.sol合约 
