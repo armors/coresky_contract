@@ -49,15 +49,19 @@ describe("Verify", function () {
         // test teplacement pattern
         const encodeERC721ReplacementPatternSell = await verify.encodeERC721ReplacementPatternSell();
         const encodeERC721ReplacementPatternBuy = await verify.encodeERC721ReplacementPatternBuy();
+        const encodeERC721OfferReplacementPatternBuy = await verify.encodeERC721OfferReplacementPatternBuy();
 
         const encodeERC1155ReplacementPatternSell = await verify.encodeERC1155ReplacementPatternSell();
         const encodeERC1155ReplacementPatternBuy = await verify.encodeERC1155ReplacementPatternBuy();
-    
+        const encodeERC1155OfferReplacementPatternBuy = await verify.encodeERC1155OfferReplacementPatternBuy();
+
         console.log({
-            encodeERC721ReplacementPatternSell: encodeERC721ReplacementPatternSell,
-            encodeERC721ReplacementPatternBuy: encodeERC721ReplacementPatternBuy,
-            encodeERC1155ReplacementPatternSell: encodeERC1155ReplacementPatternSell, 
-            encodeERC1155ReplacementPatternBuy: encodeERC1155ReplacementPatternBuy
+            encodeERC721ReplacementPatternSell,
+            encodeERC721ReplacementPatternBuy,
+            encodeERC1155ReplacementPatternSell,
+            encodeERC1155ReplacementPatternBuy,
+            encodeERC721OfferReplacementPatternBuy,
+            encodeERC1155OfferReplacementPatternBuy
         });
         
         // 712 + 1272

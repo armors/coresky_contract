@@ -9,19 +9,23 @@
     "deploy:tokenTransferProxy": "npx hardhat run scripts/deployMarketTokenTransferProxy.js",
     "deploy:exchange": "npx hardhat run scripts/deployMarketExchange.js",
     "deploy:exchangeWrap": "npx hardhat run scripts/deployMarketExchangeWrap.js",
+    "deploy:atomicizer": "npx hardhat run scripts/deployAtomicizer.js",
+    "deploy:deployMerkleDistributor": "npx hardhat run scripts/deployMerkleDistributor.js",
     "config": "npx hardhat run scripts/configMarket.js",
     "computeAddress": "npx hardhat run scripts/contractAddress.js",
     "verify": "npx hardhat verify",
     "compile": "npx hardhat compile",
     "deploy:mock": "npx hardhat run scripts/deployMock.js",
-    "deploy:localhost": "yarn run deploy:registry --network localhost && yarn run deploy:tokenTransferProxy --network localhost && yarn run deploy:exchange --network localhost && yarn run deploy:exchangeWrap --network localhost && yarn run config --network localhost",
-    "deploy:goerli": "yarn run deploy:registry --network goerli && yarn run deploy:tokenTransferProxy --network goerli && yarn run deploy:exchange --network goerli && yarn run deploy:exchangeWrap --network goerli && yarn run config --network goerli",
+    "deploy:localhost": "yarn run deploy:registry --network localhost && yarn run deploy:tokenTransferProxy --network localhost && yarn run deploy:exchange --network localhost && yarn run deploy:exchangeWrap --network localhost && yarn run deploy:atomicizer --network localhost && yarn run config --network localhost",
+    "deploy:goerli": "yarn run deploy:registry --network goerli && yarn run deploy:tokenTransferProxy --network goerli && yarn run deploy:exchange --network goerli && yarn run deploy:exchangeWrap --network goerli && yarn run config --network goerli && yarn run deploy:atomicizer --network goerli",
     "deploy:bsctest": "yarn run deploy:registry --network bsctest && yarn run deploy:tokenTransferProxy --network bsctest && yarn run deploy:exchange --network bsctest && yarn run deploy:exchangeWrap --network bsctest && yarn run config --network bsctest",
     "test:fixture": "npx hardhat run scripts/fixture.js",
     "test:market": "npx hardhat run scripts/market.js --network localhost",
     "test:market:wrap": "npx hardhat run scripts/marketWrap.js --network localhost",
     "env:localhost": "rm -rf ./localhost.deployed.json && yarn run compile && yarn run deploy:mock --network localhost && yarn run deploy:localhost && yarn run test:fixture --network localhost",
-    "env:goerli": "rm -rf ./goerli.deployed.json && yarn run compile && yarn run deploy:goerli"
+    "env:goerli": "rm -rf ./goerli.deployed.json && yarn run compile && yarn run deploy:goerli",
+    "env:localhost:md": "rm -rf ./localhost.deployed.json && yarn run compile && yarn run deploy:deployMerkleDistributor --network localhost",
+    "test:md": "npx hardhat run scripts/merkleDistributor.js --network localhost"
   },
   "devDependencies": {
     "@ethersproject/abi": "^5.7.0",
@@ -39,23 +43,26 @@
     "@types/mocha": "^10.0.0",
     "@types/node": "^18.11.8",
     "chai": "^4.3.6",
+    "deepcopy": "^2.1.0",
     "dotenv": "^16.0.3",
     "ethereumjs-util": "^7.1.5",
     "ethers": "^5.7.2",
     "hardhat": "^2.11.2",
     "hardhat-docgen": "^1.3.0",
     "hardhat-gas-reporter": "^1.0.9",
+    "merkletreejs": "^0.3.9",
     "pino": "^8.7.0",
     "solidity-coverage": "^0.8.2",
     "ts-node": "^10.9.1",
     "typechain": "^8.1.0",
     "typescript": "^4.8.4",
     "web3": "^1.8.0",
-    "xdeployer": "^1.1.25",
     "wyvern-js": "git+https://github.com/ProjectOpenSea/wyvern-js.git#7429b1f2dd123f012cae1f3144a069e91ecd0682",
-    "wyvern-schemas": "git+https://github.com/ProjectOpenSea/wyvern-schemas.git#af1fc62dd58144b60487df690c77dcf8daa45669"
+    "wyvern-schemas": "git+https://github.com/ProjectOpenSea/wyvern-schemas.git#af1fc62dd58144b60487df690c77dcf8daa45669",
+    "xdeployer": "^1.1.25"
   },
   "dependencies": {
+    "keccak256": "^1.0.6",
     "solidity-docgen": "^0.6.0-beta.29"
   }
 }

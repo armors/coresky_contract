@@ -13,10 +13,10 @@ async function getConfigFile() {
  * @returns { json }
  */
 async function getConfig() {
-    try{
+    try {
         let rawdata = fs.readFileSync(await getConfigFile());
         return JSON.parse(rawdata);
-    }catch{
+    } catch {
         await setConfig({});
         return {};
     }
@@ -41,17 +41,20 @@ async function getDeployed(config, signer) {
     const TokenTransferProxy = await ethers.getContractFactory("MarketTokenTransferProxy", {signer : signer});
     const MarketExchange = await ethers.getContractFactory("MarketExchange", {signer : signer});
     const NFTMarketWrap = await ethers.getContractFactory("NFTMarketWrap", {signer : signer});
+    const Atomicizer = await ethers.getContractFactory("Atomicizer", {signer : signer});
    
     const registry = MarketRegistry.attach(config.MarketRegistry);
     const tokenTransferProxy = TokenTransferProxy.attach(config.MarketTokenTransferProxy);
     const exchange = MarketExchange.attach(config.MarketExchange);
     const exchangeWrap = NFTMarketWrap.attach(config.NFTMarketWrap);
+    const atomicizer = Atomicizer.attach(config.Atomicizer);
 
     return {
         registry: registry,
         tokenTransferProxy: tokenTransferProxy, 
         exchange: exchange,
-        exchangeWrap: exchangeWrap
+        exchangeWrap: exchangeWrap,
+        atomicizer: atomicizer
     }
 }
 
@@ -95,6 +98,32 @@ async function getMockDeployed(config, signer) {
         btc20: ERC20Mock_BTC,
         usdt20: ERC20Mock_USDT,
         fee20: ERC20Mock_FEE,
+    }
+}
+
+async function getDeployedMD(config, signer) {
+    console.log("debug", config);
+    // load contract
+    const MerkleDistributor = await ethers.getContractFactory("MerkleDistributor", {signer : signer});
+    const Deposit = await ethers.getContractFactory("Deposit", {signer : signer});
+
+    const ERC721Mock = await ethers.getContractFactory("ERC721Mock", {signer : signer});
+    const ERC1155Mock = await ethers.getContractFactory("ERC1155Mock", {signer : signer});
+    const ERC20Mock = await ethers.getContractFactory("ERC20Mock", {signer : signer});
+   
+    const art1155  = ERC1155Mock.attach(config.ERC1155Mock_art);
+    const art721  = ERC721Mock.attach(config.ERC721Mock_art);
+    const erc20  = ERC20Mock.attach(config.ERC20Mock_FEE);
+
+    const merkleDistributor = MerkleDistributor.attach(config.MerkleDistributor);
+    const deposit = Deposit.attach(config.Deposit);
+
+    return {
+        merkleDistributor,
+        deposit,
+        art1155,
+        art721,
+        erc20
     }
 }
 
@@ -194,7 +223,6 @@ function generateArray (start, end) {
     return Array.from(new Array(end + 1).keys()).slice(start)
 }
 
-
 /** 用户注册自己的钱包
  *  
  * @param {*} deployed
@@ -213,4 +241,4 @@ function generateArray (start, end) {
     }
 }
 
-module.exports = { gasCalculate, getConfig, setConfig , deploy, getMockDeployed, getDeployed, generateArray, overrides, registerWallet }
+module.exports = { gasCalculate, getConfig, setConfig , deploy, getMockDeployed, getDeployed, generateArray, overrides, registerWallet, getDeployedMD }

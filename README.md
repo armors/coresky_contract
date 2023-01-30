@@ -1,5 +1,26 @@
 # NFT market contract
 
+* 合约支持(ETH,ERC20,ERC721, ERC1155)
+  * 销售:固定价格
+    * 报价单个 NFT
+    * 报价合集 NFT
+  * 销售:拍卖价格
+    *  英式拍卖（English Auction）
+    *  维克瑞拍卖（Second-price Vickrey auction）
+  * 批量购买（购物车）
+  * 批量销售 NFT
+
+* Methods of sale
+  * English Auction (requires asset escrow to prevent griefing attacks)
+  * Second-price Vickrey auction
+* Order kinds
+  * Transaction to transaction, directly without ERC20 intermediation
+  * Fungible to fungible, without necessarily requiring the ERC20 spec
+  * Cross-side static calls, can enforce e.g. token proportionality generically (!)
+  * Proxy contract restriction - prevent function execution for escrow - upgrade by authorizing double-proxy contract with new registry
+  * Completely separate order executor from order maker/taker - signed messages for proxy contracts, fees back to relayer (or market)
+
+
 > 匹配订单 从买/卖双方订单开始。卖方创建销售订单，以固定价格或者竞拍的方式，将 NFT挂出去; 买方创建购买订单，并将卖方创建的销售订单一起，发给交易合约 Exchange Contract。交易合约将对订单校验，校验通过后，完成转移：
 * 执行转账和支付各项手续费
 * NFT产品转移
@@ -7,9 +28,6 @@
 > 整体架构、订单实体、用户注册代理钱包、签名、calldata、replacementPattern 生成等 参考文档和测试用例
  
 ```
-# vim config
-cp .env.example .env
-
 # install dependency
 yarn
 
@@ -46,21 +64,38 @@ npx hardhat run scripts/market.js --network goerli
 
 # ------------------ ------------------ ------------------ 
 
+
+# Launchpad
+
+yarn hardhat compile --force
+
+yarn env:localhost:md
+
+yarn test:md
+
+# java hash test 
+
+cd ./scripts/demo
+
+./gradlew run
+
+# ------------------ ------------------ ------------------ 
+
 ```
 
 ### 文档
 
-   [Market设计文档](https://github.com/armors/coresky_contract/blob/main/docs/Market%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3.pdf)
+   [Market设计文档](https://github.com/hoseadevops/edec-nft-market/blob/main/docs/Market%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3.pdf)
 
-   [签名 && calldata demo  js](https://github.com/armors/coresky_contract/blob/main/test/verify.js)
+   [签名 && calldata demo  js](https://github.com/hoseadevops/edec-nft-market/blob/main/test/verify.js)
 
-   [签名 && calldata demo  solidity](https://github.com/armors/coresky_contract/blob/main/contracts/Verify.sol)
+   [签名 && calldata demo  solidity](https://github.com/hoseadevops/edec-nft-market/blob/main/contracts/Verify.sol)
 
    * 合约接口: documents/index.html
        * 可参考 contracts/NFTMarket.sol: Exchange 合约  和  contracts/NFTMarketWrap.sol合约 
        * 可参考：测试用例
 
-### 流程图（同 opensea 流程）
+### 流程图
 
 > 买
 
