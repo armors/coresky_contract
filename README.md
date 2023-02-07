@@ -1,5 +1,7 @@
 # NFT market contract
 
+> 合约中 SPDX-License-Identifier 请根据需要自行修改
+
 * 合约支持(ETH,ERC20,ERC721, ERC1155)
   * 销售:固定价格
     * 报价单个 NFT
