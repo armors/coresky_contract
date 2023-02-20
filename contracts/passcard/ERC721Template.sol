@@ -2440,7 +2440,7 @@ contract ERC721Template is
         return (tokenID >= merkleReservedMinTokenID && tokenID <= merkleReservedMaxTokenID);
     }
 
-    modifier whenReserved(uint256 tokenID) {
+    modifier whenBelongReserve(uint256 tokenID) {
         require(isReservedTokenID(tokenID), "Not Reserved");
         _;
     }
@@ -2468,6 +2468,9 @@ contract ERC721Template is
         baseURI = prefixURI;
         isCanClaim = claim;
         merkleRoot = merkleTreeRoot;
+        
+        require(reservedMaxTokenID > reservedMinTokenID, "MaxTokenID");
+
         merkleReservedMinTokenID = reservedMinTokenID;
         merkleReservedMaxTokenID = reservedMaxTokenID;
         
@@ -2518,7 +2521,7 @@ contract ERC721Template is
         uint256 tokenID, 
         string memory uri, 
         bytes32[] calldata merkleProof
-    ) external whenNotPaused() whenReserved(tokenID) onlyOnce(to) onlyClaimable() {
+    ) external whenNotPaused() whenBelongReserve(tokenID) onlyOnce(to) onlyClaimable() {
         // Verify the merkle proof.
         bytes32 node = keccak256(abi.encodePacked(to, tokenID, uri));
         if (!MerkleProof.verify(merkleProof, merkleRoot, node)) revert InvalidProof();
