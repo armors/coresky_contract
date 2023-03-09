@@ -1416,7 +1416,7 @@ contract Escrow is
     bytes32 public constant OPERATOR_ROLE = keccak256("OPERATOR_ROLE");
 
     IERC721 public nft;
-    IVault public vault;
+    IVault public immutable vault;
 
     // user => tokenID
     mapping(address => uint256 ) public ledger;
@@ -1467,6 +1467,7 @@ contract Escrow is
     }
 
     function deposit(uint256 tokenID) external whenNotPaused() whenNotHold(msg.sender) {
+        require(tokenID > 0, "tokenID can not be zero");
         recordLedger(msg.sender, tokenID);
         IERC721(nft).safeTransferFrom(msg.sender, address(vault), tokenID);
         emit Deposit(msg.sender, msg.sender, tokenID);
@@ -1484,6 +1485,7 @@ contract Escrow is
         uint256 tokenID,
         bytes memory
     ) public virtual override whenNotPaused() onlyNFT(msg.sender) whenNotHold(from) returns (bytes4) {
+        require(tokenID > 0, "tokenID can not be zero");
         recordLedger(from, tokenID);
         IERC721(nft).safeTransferFrom(address(this), address(vault), tokenID);
         emit Deposit(sender, from, tokenID);
