@@ -1416,7 +1416,7 @@ contract Escrow is
     bytes32 public constant OPERATOR_ROLE = keccak256("OPERATOR_ROLE");
 
     IERC721 public nft;
-    IVault public immutable vault;
+    IVault public vault;
 
     // user => tokenID
     mapping(address => uint256 ) public ledger;
